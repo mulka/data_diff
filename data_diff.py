@@ -35,36 +35,29 @@ def data_diff(first, second):
     over here
     True
     """
-    
-    if isinstance(first, dict):
-        if not isinstance(second, dict):
-            print "types don't match"
-            print first
-            print second
-            return True
-        else:
-            for k in first:
-                if data_diff(first[k], second[k]):
-                    return True
-            for k in second:
-                if data_diff(first[k], second[k]):
-                    return True
+    if not type(first) == type(second):
+        print "types don't match:"
+        print first
+        print second
+        return True
+                
+    elif isinstance(first, dict):
+        for k in first:
+            if data_diff(first[k], second[k]):
+                return True
+        for k in second:
+            if data_diff(first[k], second[k]):
+                return True
                 
     elif isinstance(first, list):
-        if not isinstance(second, list):
-            print "types don't match:"
+        if len(first) != len(second):
+            print "list lengths don't match:"
             print first
             print second
             return True
-        else:
-            if len(first) != len(second):
-                print "list lengths don't match:"
-                print first
-                print second
+        for i, v in enumerate(first):
+            if data_diff(v, second[i]):
                 return True
-            for i, v in enumerate(first):
-                if data_diff(v, second[i]):
-                    return True
     else:
         if first == '...' or second == '...':
             return False
