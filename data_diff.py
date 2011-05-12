@@ -35,6 +35,9 @@ def data_diff(first, second):
     over here
     True
     """
+    if first == '...' or second == '...':
+        return False
+    
     if not type(first) == type(second):
         print "types don't match:"
         print first
@@ -59,16 +62,14 @@ def data_diff(first, second):
             if data_diff(v, second[i]):
                 return True
     else:
-        if first == '...' or second == '...':
-            return False
-#        elif (isinstance(first, unicode) and first[0] == '$') or (isinstance(first, unicode) and second[0] == '$'):
+#        if (isinstance(first, unicode) and first[0] == '$') or (isinstance(first, unicode) and second[0] == '$'):
 #            return False
-        else:
-            if first != second:
-                print "values don't match:"
-                print first
-                print second
-            return first != second
+#        else:
+        if first != second:
+            print "values don't match:"
+            print first
+            print second
+        return first != second
     return False
 
 if __name__ == "__main__":
