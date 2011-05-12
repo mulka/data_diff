@@ -1,4 +1,41 @@
+#!/usr/bin/env python
 def data_diff(first, second):
+    """
+    Compares two python data structures... the kind you might get from json.loads().
+    
+    Examples:
+    
+    >>> data_diff('these strings are the same', 'these strings are the same')
+    False
+    
+    >>> data_diff(['these', 'lists', 'are', 'the', 'same'], ['these', 'lists', 'are', 'the', 'same'])
+    False
+    
+    >>> data_diff({'these': 'dicts', 'are': 'the same'}, {'are': 'the same', 'these': 'dicts'})
+    False
+    
+    >>> data_diff({'data_diff': ['can handle', {'nesting of': 'these types'}]}, {'data_diff': ['can handle', {'nesting of': 'these types'}]})
+    False
+    
+    >>> data_diff(['this is', 'a list'], {'this is': 'a dict'})
+    types don't match:
+    ['this is', 'a list']
+    {'this is': 'a dict'}
+    True
+    
+    >>> data_diff(['this list'], ['is shorter than', 'this other list'])
+    list lengths don't match:
+    ['this list']
+    ['is shorter than', 'this other list']
+    True
+    
+    >>> data_diff({'this string:': 'is different than'}, {'this string:': 'over here'})
+    values don't match:
+    is different than
+    over here
+    True
+    """
+    
     if isinstance(first, dict):
         if not isinstance(second, dict):
             print "types don't match"
@@ -15,13 +52,13 @@ def data_diff(first, second):
                 
     elif isinstance(first, list):
         if not isinstance(second, list):
-            print "types don't match"
+            print "types don't match:"
             print first
             print second
             return True
         else:
             if len(first) != len(second):
-                print "list lengths don't match"
+                print "list lengths don't match:"
                 print first
                 print second
                 return True
@@ -40,3 +77,7 @@ def data_diff(first, second):
                 print second
             return first != second
     return False
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
