@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-def data_diff(first, second):
+def data_diff(first, second, silent=False):
     """
     Compares two python data structures... the kind you might get from json.loads().
     
@@ -34,41 +34,53 @@ def data_diff(first, second):
     is different than
     over here
     True
+    
+    >>> data_diff(['this is', 'a list'], {'this is': 'a dict'}, True)
+    True
+    
+    >>> data_diff(['this list'], ['is shorter than', 'this other list'], True)
+    True
+    
+    >>> data_diff({'this string:': 'is different than'}, {'this string:': 'over here'}, True)
+    True
     """
     if first == '...' or second == '...':
         return False
     
     if not type(first) == type(second):
-        print "types don't match:"
-        print first
-        print second
+        if not silent:
+            print "types don't match:"
+            print first
+            print second
         return True
                 
     elif isinstance(first, dict):
         for k in first:
-            if data_diff(first[k], second[k]):
+            if data_diff(first[k], second[k], silent):
                 return True
         for k in second:
-            if data_diff(first[k], second[k]):
+            if data_diff(first[k], second[k], silent):
                 return True
                 
     elif isinstance(first, list):
         if len(first) != len(second):
-            print "list lengths don't match:"
-            print first
-            print second
+            if not silent:
+                print "list lengths don't match:"
+                print first
+                print second
             return True
         for i, v in enumerate(first):
-            if data_diff(v, second[i]):
+            if data_diff(v, second[i], silent):
                 return True
     else:
 #        if (isinstance(first, unicode) and first[0] == '$') or (isinstance(first, unicode) and second[0] == '$'):
 #            return False
 #        else:
         if first != second:
-            print "values don't match:"
-            print first
-            print second
+            if not silent:
+                print "values don't match:"
+                print first
+                print second
         return first != second
     return False
 
