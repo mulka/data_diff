@@ -56,9 +56,21 @@ def data_diff(first, second, silent=False):
                 
     elif isinstance(first, dict):
         for k in first:
+            if k not in second:
+                if not silent:
+                    print k + " not in second"
+                    print first
+                    print second
+                return True
             if data_diff(first[k], second[k], silent):
                 return True
         for k in second:
+            if k not in first:
+                if not silent:
+                    print k + " not in first"
+                    print first
+                    print second
+                return True
             if data_diff(first[k], second[k], silent):
                 return True
                 
